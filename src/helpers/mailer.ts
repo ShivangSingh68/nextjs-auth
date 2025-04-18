@@ -17,8 +17,8 @@ export const mailSender = async ({ email, userId, emailType }: any) => {
     console.log("SMTP CONFIG", {
       host: process.env.MAIL_HOST,
       port: process.env.MAIL_PORT,
-      user: process.env.MAIL_USER,
-      pass: process.env.MAIL_PASS ? "✔️ set" : "❌ missing",
+      user: process.env.MAILTRAP_USER,
+      pass: process.env.MAILTRAP_PASSWORD ? "✔️ set" : "❌ missing",
     });
     const hashedOtp = Date.now() + Math.floor(Math.random() * 264) + userId;
     console.log(email, userId, emailType);
