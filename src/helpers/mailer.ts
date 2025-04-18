@@ -52,7 +52,7 @@ export const mailSender = async ({ email, userId, emailType }: any) => {
     }
 
     const info = await transport.sendMail({
-      from: '"', // sender address
+      from: "nextjs-auth.com", // sender address
       to: "bar@example.com, baz@example.com", // list of receivers
       subject:
         emailType === "Verify" ? "Verify your Email" : "Reset your password", // Subject line
