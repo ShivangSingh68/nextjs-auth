@@ -4,8 +4,8 @@ import nodemailer from "nodemailer";
 
 // Looking to send emails in production? Check out our Email API/SMTP product!
 var transport = nodemailer.createTransport({
-  host: "sandbox.smtp.mailtrap.io",
-  port: 2525,
+  host: process.env.MAIL_HOST,
+  port: Number(process.env.MAIL_PORT),
   auth: {
     user: process.env.MAILTRAP_USER,
     pass: process.env.MAILTRAP_PASSWORD,
