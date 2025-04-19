@@ -127,6 +127,8 @@ export const mailSender = async ({ email, userId, emailType }: any) => {
         }
       );
       console.log(user);
+      console.log("API key present?", !!process.env.RESEND_API_KEY);
+      console.log("Domain:", process.env.DOMAIN);
     } else if (emailType === "Reset") {
       path = "forgotpassword";
       const user = await User.findByIdAndUpdate(
