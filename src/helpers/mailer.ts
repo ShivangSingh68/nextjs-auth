@@ -141,7 +141,8 @@ export const mailSender = async ({ email, userId, emailType }: any) => {
       );
       console.log(user);
     }
-
+    console.log("API key present?", !!process.env.RESEND_API_KEY);
+    console.log("Domain:", process.env.DOMAIN);
     const response = await resend.emails.send({
       from: "Acme <onboarding@resend.dev>",
       to: "delivered@resend.dev",
