@@ -157,6 +157,7 @@ export const mailSender = async ({ email, userId, emailType }: any) => {
     console.log(response);
     return response;
   } catch (error: any) {
+    console.error("❌ Mail send error:", error);
     throw new Error(error.message || "Unknown Error");
   }
 };
