@@ -143,13 +143,15 @@ export const mailSender = async ({ email, userId, emailType }: any) => {
     }
 
     const response = await resend.emails.send({
-      from: "Nextjs Auth <www.nextjs-auth.com>",
-      to: email,
+      from: "Acme <onboarding@resend.dev>",
+      to: "delivered@resend.dev",
       subject:
         emailType === "Verify" ? "Verify your Email" : "Reset your password",
-      html: "<strong>Thanks for signing up! <a href=`${process.env.DOMAIN}/${path}?token=${hashedOtp}`>Click here!!</a><p> to confirm your email</p>`${process.env.DOMAIN}/${path}?token=${hashedOtp}`</strong>",
+      html: `<strong>Thanks for signing up! <a href="${process.env.DOMAIN}/${path}?token=${hashedOtp}">Click here!!</a><p> to confirm your email</p>${process.env.DOMAIN}/${path}?token=${hashedOtp}</strong>`,
     });
+
     console.log("mail sent!!");
+    console.log(response);
     return response;
   } catch (error: any) {
     throw new Error(error.message || "Unknown Error");
