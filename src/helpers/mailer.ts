@@ -111,12 +111,46 @@ export const mailSender = async ({ email, userId, emailType }: any) => {
     // return info;
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    await resend.emails.send({
+    const hashedOtp = Date.now() + Math.floor(Math.random() * 264) + userId;
+    console.log(email, userId, emailType);
+    let path;
+    if (emailType === "Verify") {
+      path = "confirmemail";
+      const user = await User.findByIdAndUpdate(
+        userId,
+        {
+          verifyToken: hashedOtp,
+          verifyTokenExpiry: Date.now() + 3600000,
+        },
+        {
+          new: true,
+        }
+      );
+      console.log(user);
+    } else if (emailType === "Reset") {
+      path = "forgotpassword";
+      const user = await User.findByIdAndUpdate(
+        userId,
+        {
+          forgotPassword: hashedOtp,
+          forgotPasswordExpiry: Date.now() + 3600000,
+        },
+        {
+          new: true,
+        }
+      );
+      console.log(user);
+    }
+
+    const response = await resend.emails.send({
       from: "Nextjs Auth <www.nextjs-auth.com>",
       to: email,
-      subject: "Confirmation Email",
-      html: "<strong>Thanks for signing up! <a href=`${process.env.DOMAIN}/${path}?token=${hashedOtp}`>Click here!!</a>`${process.env.DOMAIN}/${path}?token=${hashedOtp}`</strong>",
+      subject:
+        emailType === "Verify" ? "Verify your Email" : "Reset your password",
+      html: "<strong>Thanks for signing up! <a href=`${process.env.DOMAIN}/${path}?token=${hashedOtp}`>Click here!!</a><p> to confirm your email</p>`${process.env.DOMAIN}/${path}?token=${hashedOtp}`</strong>",
     });
+    console.log("mail sent!!");
+    return response;
   } catch (error: any) {
     throw new Error(error.message || "Unknown Error");
   }
